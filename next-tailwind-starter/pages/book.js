@@ -5,10 +5,10 @@ export default function Book() {
   return (
     <>
       <Nav />
-      <main className="min-h-screen bg-gradient-to-b from-white to-gray-100">
+      <main className="min-h-screen" style={{background: 'linear-gradient(to bottom, #496b92, #3a6b4a)'}}>
         <div className="text-center py-10 px-6">
-          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight">Book a free consultation</h1>
-          <p className="mt-4 text-lg sm:text-xl text-gray-600">and watch your worries go away</p>
+          <h1 className="text-3xl sm:text-5xl font-extrabold tracking-tight text-taupe" style={{WebkitTextStroke: '4px #496b92', paintOrder: 'stroke fill'}}>Book a free consultation</h1>
+          <p className="mt-4 text-lg sm:text-xl text-taupe">and watch your worries go away</p>
         </div>
         <div style={{ width: '100%', height: '100%', overflow: 'scroll' }} id="my-cal-inline-30min" />
         <Script id="cal-embed" strategy="afterInteractive">{`

@@ -1,5 +1,17 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "tailwindcss";
 
-/* Add global helpers here */
+@theme {
+  --color-c1: #e3e3e3;
+  --color-c2: #f2e5b0;
+  --color-c3: #496b92;
+  --color-c4: #6b8e8d;
+  --color-c5: #9c9c9c;
+
+  /* aliases for readability */
+  --color-primary: #f2e5b0;
+  --color-olive: #e3e3e3;
+  --color-navy: #496b92;
+  --color-ink: #1a1e2a;
+  --color-taupe: #f2e5b0;
+  --color-muted: #9c9c9c;
+}
