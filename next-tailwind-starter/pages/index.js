@@ -1,6 +1,105 @@
 import Nav from '../components/Nav'
+import { useRef, useEffect } from 'react'
+
+const PIVOT = { x: 720, y: 148 }
+const LEFT_ATTACH = { x: 470, y: 490 }
+const RIGHT_ATTACH = { x: 970, y: 490 }
 
 export default function Home() {
+  const angleRef = useRef(0)
+  const velocityRef = useRef(0)
+  const rafRef = useRef(null)
+  const leftRopeRef = useRef(null)
+  const rightRopeRef = useRef(null)
+  const swingGroupRef = useRef(null)
+  const canSwingRef = useRef(true)
+  const leaveTimerRef = useRef(null)
+  const lastMouseXRef = useRef(null)
+  const mouseSpeedRef = useRef(0)
+  const idleRafRef = useRef(null)
+
+  function updateSwing(angle) {
+    const cos = Math.cos(angle)
+    const sin = Math.sin(angle)
+    const lDx = LEFT_ATTACH.x - PIVOT.x
+    const lDy = LEFT_ATTACH.y - PIVOT.y
+    const rDx = RIGHT_ATTACH.x - PIVOT.x
+    const rDy = RIGHT_ATTACH.y - PIVOT.y
+    const lb = { x: PIVOT.x + lDx * cos - lDy * sin, y: PIVOT.y + lDx * sin + lDy * cos }
+    const rb = { x: PIVOT.x + rDx * cos - rDy * sin, y: PIVOT.y + rDx * sin + rDy * cos }
+    if (leftRopeRef.current) {
+      leftRopeRef.current.setAttribute('x2', lb.x)
+      leftRopeRef.current.setAttribute('y2', lb.y)
+    }
+    if (rightRopeRef.current) {
+      rightRopeRef.current.setAttribute('x2', rb.x)
+      rightRopeRef.current.setAttribute('y2', rb.y)
+    }
+    if (swingGroupRef.current) {
+      swingGroupRef.current.setAttribute('transform', `rotate(${angle * 180 / Math.PI}, ${PIVOT.x}, ${PIVOT.y})`)
+    }
+  }
+
+  function startIdle() {
+    let start = null
+    function idleLoop(ts) {
+      if (!start) start = ts
+      updateSwing(0.02 * Math.sin((ts - start) / (4000 / (2 * Math.PI))))
+      idleRafRef.current = requestAnimationFrame(idleLoop)
+    }
+    idleRafRef.current = requestAnimationFrame(idleLoop)
+  }
+
+  function animate() {
+    velocityRef.current += -0.003 * angleRef.current
+    velocityRef.current *= 0.992
+    angleRef.current += velocityRef.current
+    updateSwing(angleRef.current)
+    if (Math.abs(velocityRef.current) > 0.0002 || Math.abs(angleRef.current) > 0.001) {
+      rafRef.current = requestAnimationFrame(animate)
+    } else {
+      angleRef.current = 0
+      velocityRef.current = 0
+      startIdle()
+    }
+  }
+
+  function handleMouseEnter(e) {
+    if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current)
+    if (!canSwingRef.current) return
+    canSwingRef.current = false
+    if (idleRafRef.current) cancelAnimationFrame(idleRafRef.current)
+    if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    const dir = (lastMouseXRef.current !== null && e.clientX > lastMouseXRef.current) ? -1 : 1
+    const speed = Math.min(Math.abs(mouseSpeedRef.current), 60)
+    const strength = 0.02 + (speed / 60) * 0.08
+    velocityRef.current = strength * dir
+    angleRef.current = 0
+    rafRef.current = requestAnimationFrame(animate)
+  }
+
+  function handleMouseLeave() {
+    if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current)
+    leaveTimerRef.current = setTimeout(() => {
+      canSwingRef.current = true
+    }, 500)
+  }
+
+  useEffect(() => {
+    const trackMouse = (e) => {
+      mouseSpeedRef.current = e.movementX
+      lastMouseXRef.current = e.clientX
+    }
+    window.addEventListener('mousemove', trackMouse)
+    startIdle()
+    return () => {
+      window.removeEventListener('mousemove', trackMouse)
+      if (rafRef.current) cancelAnimationFrame(rafRef.current)
+      if (idleRafRef.current) cancelAnimationFrame(idleRafRef.current)
+      if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current)
+    }
+  }, [])
+
   return (
     <>
       <Nav />
@@ -75,32 +174,28 @@ export default function Home() {
           ))}
 
           {/* Porch swing */}
-          {/* Ropes */}
-          <line x1="500" y1="148" x2="470" y2="490" stroke="#a09060" strokeWidth="4" />
-          <line x1="940" y1="148" x2="970" y2="490" stroke="#a09060" strokeWidth="4" />
-          {/* Rope attachments */}
+          {/* Fixed anchor points */}
           <circle cx="500" cy="148" r="7" fill="#a09060" />
           <circle cx="940" cy="148" r="7" fill="#a09060" />
-          {/* Back rest top rail */}
+          {/* Ropes — tops stay at anchors, bottoms track swing rotation */}
+          <line ref={leftRopeRef} x1="500" y1="148" x2="470" y2="490" stroke="#a09060" strokeWidth="4" />
+          <line ref={rightRopeRef} x1="940" y1="148" x2="970" y2="490" stroke="#a09060" strokeWidth="4" />
+          {/* Swing body — rotates around pivot */}
+          <g ref={swingGroupRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{ cursor: 'pointer' }}>
           <rect x="455" y="390" width="530" height="16" rx="6" fill="#7a5530" />
-          {/* Back rest planks */}
           {[470, 510, 550, 590, 630, 670, 710, 750, 790, 830, 870, 910, 950].map(x => (
             <rect key={x} x={x} y="406" width="28" height="80" rx="3" fill="#8b6a3a" />
           ))}
-          {/* Seat frame */}
           <rect x="455" y="485" width="530" height="22" rx="6" fill="#7a5530" />
-          {/* Seat planks */}
           {[460, 500, 540, 580, 620, 660, 700, 740, 780, 820, 860, 900, 940].map(x => (
             <rect key={x} x={x} y="490" width="28" height="16" rx="3" fill="#8b6a3a" />
           ))}
-          {/* Bottom seat rail */}
           <rect x="455" y="506" width="530" height="10" rx="4" fill="#7a5530" />
-          {/* Left armrest */}
           <rect x="450" y="430" width="16" height="80" rx="4" fill="#7a5530" />
           <rect x="435" y="426" width="46" height="12" rx="4" fill="#8b6a3a" />
-          {/* Right armrest */}
           <rect x="974" y="430" width="16" height="80" rx="4" fill="#7a5530" />
           <rect x="959" y="426" width="46" height="12" rx="4" fill="#8b6a3a" />
+          </g>
         </svg>
 
         <div className="relative z-10 flex flex-col items-center max-w-3xl">
