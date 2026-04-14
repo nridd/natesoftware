@@ -153,11 +153,12 @@ export default function Home() {
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl sm:text-5xl font-bold text-ink mb-4">How It Works</h2>
           <p className="text-ink mb-16 text-lg opacity-70">Just three simple steps.</p>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
             {[
               { step: '01', title: 'Book a Call', desc: 'Tell me your problem in a free 30-minute consultation.' },
               { step: '02', title: 'Get a Plan', desc: "I'll outline exactly what needs to be built and what it'll cost." },
-              { step: '03', title: 'Problem Solved', desc: 'I build it. You stop having the problem. Simple.' },
+              { step: '03', title: 'Play Ping Pong', desc: 'Every project is iterative. We go back and forth until it\'s exactly what you need.' },
+              { step: '04', title: 'Problem Solved', desc: 'You stop having the problem. Simple.' },
             ].map(({ step, title, desc }) => (
               <div key={step} className="flex flex-col items-center">
                 <div className="text-5xl font-extrabold text-olive/40 mb-4">{step}</div>
