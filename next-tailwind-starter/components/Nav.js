@@ -5,6 +5,7 @@ export default function Nav() {
       <div className="space-x-6 hidden md:flex items-center">
         <a href="/" className="text-sm font-medium text-muted hover:text-primary transition-colors">Home</a>
         <a href="/about" className="text-sm font-medium text-muted hover:text-primary transition-colors">About</a>
+        <a href="/contact" className="text-sm font-medium text-muted hover:text-primary transition-colors">Contact</a>
         <a href="/book" className="text-sm font-bold bg-taupe text-ink px-5 py-2 rounded-full hover:bg-primary transition-colors">Book a call</a>
       </div>
     </nav>
