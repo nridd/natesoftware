@@ -125,7 +125,7 @@ export default function Home() {
       {/* Who I help */}
       <section id="what-i-do" className="bg-ink py-28 px-6">
         <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl sm:text-4xl font-bold text-taupe mb-10">Sound familiar?</h2>
+          <h2 className="text-2xl sm:text-4xl font-bold text-taupe mb-10">Here's where I come in</h2>
           <div className="flex flex-col gap-4 text-left">
             {[
               { icon: '🌐', title: 'You need a web presence', text: "Whether it's a landing page, a full site, or somewhere to host your product — I'll get you online fast." },
