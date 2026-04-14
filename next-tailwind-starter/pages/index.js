@@ -26,18 +26,18 @@ export default function Home() {
 
           {/* Vertical railings — white */}
           {Array.from({ length: 72 }, (_, i) => (
-            <rect key={i} x={i * 20 + 4} y="480" width="6" height="100" rx="3" fill="#ffffff" opacity="0.9" />
+            <rect key={i} x={i * 20 + 4} y="480" width="6" height="100" rx="3" fill="#d0cfc8" opacity="0.9" />
           ))}
 
           {/* Top rail — white */}
-          <rect x="0" y="475" width="1440" height="10" rx="2" fill="#ffffff" opacity="0.95" />
+          <rect x="0" y="475" width="1440" height="10" rx="2" fill="#d0cfc8" opacity="0.95" />
           {/* Bottom rail — white */}
-          <rect x="0" y="578" width="1440" height="10" rx="2" fill="#ffffff" opacity="0.95" />
+          <rect x="0" y="578" width="1440" height="10" rx="2" fill="#d0cfc8" opacity="0.95" />
 
           {/* Porch columns — white */}
           {[80, 400, 720, 1040, 1360].map(x => (
             <g key={x}>
-              <rect x={x - 14} y="0" width="28" height="590" rx="3" fill="#ffffff" opacity="0.95" />
+              <rect x={x - 14} y="0" width="28" height="590" rx="3" fill="#d0cfc8" opacity="0.95" />
               <rect x={x + 10} y="0" width="5" height="590" rx="2" fill="#00000015" />
             </g>
           ))}
@@ -122,26 +122,29 @@ export default function Home() {
       </section>
 
 
-      {/* What I do */}
+      {/* Who I help */}
       <section id="what-i-do" className="bg-ink py-28 px-6">
-        <div className="max-w-5xl mx-auto">
-          <div className="text-center mb-16">
-            <h2 className="text-3xl sm:text-5xl font-bold text-primary">What I Do</h2>
-            <p className="text-muted mt-4 text-lg max-w-xl mx-auto">Fast, clean software built around your specific problem — not a template.</p>
-          </div>
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-6">
+        <div className="max-w-3xl mx-auto text-center">
+          <h2 className="text-2xl sm:text-4xl font-bold text-taupe mb-10">Sound familiar?</h2>
+          <div className="flex flex-col gap-4 text-left">
             {[
-              { icon: '🌐', title: 'Web Apps', desc: 'Full-stack applications built to scale with your business.' },
-              { icon: '⚙️', title: 'Automation', desc: 'Eliminate repetitive work with custom scripts and workflows.' },
-              { icon: '🧠', title: 'Consulting', desc: "Not sure what you need? Let's figure out the right solution together." },
-            ].map(({ icon, title, desc }) => (
-              <div key={title} className="bg-ink rounded-2xl p-8 border border-c4/30 hover:border-c2/60 transition-all">
-                <div className="text-4xl mb-4">{icon}</div>
-                <h3 className="text-xl font-bold text-c2 mb-3">{title}</h3>
-                <p className="text-muted text-sm leading-relaxed">{desc}</p>
+              { icon: '🌐', title: 'You need a web presence', text: "Whether it's a landing page, a full site, or somewhere to host your product — I'll get you online fast." },
+              { icon: '⚙️', title: 'Your tools are slowing you down', text: "If the software you use every day creates more friction than it removes, something better can be built." },
+              { icon: '🔁', title: 'You\'re doing the same thing over and over', text: "If you can describe it, I can automate it — freeing your time for the work that actually matters." },
+              { icon: '🏗️', title: 'You need a system built from scratch, customized to you', text: "No off-the-shelf solution fits? I'll build exactly what your business needs." },
+            ].map(({ icon, title, text }) => (
+              <div key={title} className="flex items-start gap-5 bg-ink/20 rounded-2xl p-6 border border-taupe/30 hover:border-taupe/60 transition-all">
+                <span className="text-4xl mt-1">{icon}</span>
+                <div>
+                  <h3 className="text-taupe font-bold text-lg mb-1">{title}</h3>
+                  <p className="text-primary/70 text-sm leading-relaxed">{text}</p>
+                </div>
               </div>
             ))}
           </div>
+          <a href="/book" className="mt-10 inline-block bg-taupe text-ink font-bold px-8 py-4 rounded-full text-lg hover:bg-primary transition-colors">
+            Let's talk
+          </a>
         </div>
       </section>
 
@@ -149,7 +152,7 @@ export default function Home() {
       <section className="bg-navy py-28 px-6">
         <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-3xl sm:text-5xl font-bold text-ink mb-4">How It Works</h2>
-          <p className="text-ink mb-16 text-lg opacity-70">Three steps. No fluff.</p>
+          <p className="text-ink mb-16 text-lg opacity-70">Just three simple steps.</p>
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-10">
             {[
               { step: '01', title: 'Book a Call', desc: 'Tell me your problem in a free 30-minute consultation.' },
