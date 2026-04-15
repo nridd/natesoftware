@@ -200,10 +200,10 @@ export default function Home() {
 
         <div className="relative z-10 flex flex-col items-center max-w-3xl">
           <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight text-white leading-tight" style={{WebkitTextStroke: '6px #496b92', paintOrder: 'stroke fill'}}>
-            Porch Swing Software
+            Hello Iain Forrest
           </h1>
           <p className="mt-6 text-xl sm:text-2xl text-c1 max-w-xl leading-relaxed" style={{WebkitTextStroke: '4px #496b92', paintOrder: 'stroke fill'}}>
-            Life's easier with the right software.
+            Life's a breeze with the right software.
           </p>
           <div className="mt-10 flex flex-col sm:flex-row gap-4">
             <a href="/book" className="bg-taupe text-ink font-bold px-8 py-4 rounded-full text-lg hover:bg-primary hover:text-ink transition-all shadow-lg">
