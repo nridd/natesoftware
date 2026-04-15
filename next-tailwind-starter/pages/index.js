@@ -107,7 +107,7 @@ export default function Home() {
       {/* Hero */}
       <section className="relative flex flex-col items-center justify-center min-h-[90vh] bg-ink text-center px-6 overflow-hidden">
         {/* Porch illustration */}
-        <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1440 700" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
+        <svg className="absolute inset-0 w-full h-full z-0" viewBox="0 0 1440 700" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
           {/* Sky — space */}
           <style>{`
             @keyframes shoot1 { 0%,100%{opacity:0;transform:translate(0,0)} 1%{opacity:1} 5%{opacity:0;transform:translate(280px,130px)} }
@@ -367,7 +367,7 @@ export default function Home() {
               { step: '3', icon: '🔄', title: 'We Iterate', desc: "We go back and forth until it's exactly what you need." },
               { step: '4', icon: '🚀', title: 'Problem Solved', desc: 'You stop having the problem. Simple.' },
             ].map(({ step, icon, title, desc }) => (
-              <div key={step} className="flex flex-col items-center border border-primary/10 rounded-2xl p-8 bg-white/5 backdrop-blur-sm">
+              <div key={step} className="flex flex-col items-center border border-primary/10 rounded-2xl p-8 bg-white/5">
                 <div className="text-4xl mb-3">{icon}</div>
                 <div className="text-4xl font-extrabold text-primary/20 mb-2">{step}</div>
                 <h3 className="text-lg font-bold text-primary mb-2">{title}</h3>
