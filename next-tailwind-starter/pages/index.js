@@ -200,7 +200,7 @@ export default function Home() {
 
         <div className="relative z-10 flex flex-col items-center max-w-3xl">
           <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight text-white leading-tight" style={{WebkitTextStroke: '6px #496b92', paintOrder: 'stroke fill'}}>
-            Hello Iain Forrest
+            Iain Forrest is Gay
           </h1>
           <p className="mt-6 text-xl sm:text-2xl text-c1 max-w-xl leading-relaxed" style={{WebkitTextStroke: '4px #496b92', paintOrder: 'stroke fill'}}>
             Life's a breeze with the right software.
