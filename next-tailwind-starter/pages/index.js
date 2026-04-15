@@ -1,7 +1,7 @@
 import Nav from '../components/Nav'
 import { useRef, useEffect } from 'react'
 
-const PIVOT = { x: 720, y: 148 }
+const PIVOT = { x: 720, y: -10 }
 const LEFT_ATTACH = { x: 470, y: 490 }
 const RIGHT_ATTACH = { x: 970, y: 490 }
 
@@ -108,14 +108,67 @@ export default function Home() {
       <section className="relative flex flex-col items-center justify-center min-h-[90vh] bg-ink text-center px-6 overflow-hidden">
         {/* Porch illustration */}
         <svg className="absolute inset-0 w-full h-full" viewBox="0 0 1440 700" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
-          {/* Sky — blue fading to green */}
+          {/* Sky — space */}
+          <style>{`
+            @keyframes shoot1 { 0%,100%{opacity:0;transform:translate(0,0)} 1%{opacity:1} 5%{opacity:0;transform:translate(280px,130px)} }
+            @keyframes shoot2 { 0%,100%{opacity:0;transform:translate(0,0)} 1%{opacity:1} 5%{opacity:0;transform:translate(200px,180px)} }
+            @keyframes shoot3 { 0%,100%{opacity:0;transform:translate(0,0)} 1%{opacity:1} 5%{opacity:0;transform:translate(350px,100px)} }
+            @keyframes shoot4 { 0%,100%{opacity:0;transform:translate(0,0)} 1%{opacity:1} 5%{opacity:0;transform:translate(160px,200px)} }
+            @keyframes shoot5 { 0%,100%{opacity:0;transform:translate(0,0)} 1%{opacity:1} 5%{opacity:0;transform:translate(300px,160px)} }
+            @keyframes shoot6 { 0%,100%{opacity:0;transform:translate(0,0)} 1%{opacity:1} 5%{opacity:0;transform:translate(240px,140px)} }
+            .ss1 { animation: shoot1 24s linear infinite; animation-delay: 0s; opacity: 0; }
+            .ss2 { animation: shoot2 24s linear infinite; animation-delay: 4s; opacity: 0; }
+            .ss3 { animation: shoot3 24s linear infinite; animation-delay: 8s; opacity: 0; }
+            .ss4 { animation: shoot4 24s linear infinite; animation-delay: 12s; opacity: 0; }
+            .ss5 { animation: shoot5 24s linear infinite; animation-delay: 16s; opacity: 0; }
+            .ss6 { animation: shoot6 24s linear infinite; animation-delay: 20s; opacity: 0; }
+          `}</style>
           <defs>
             <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#496b92" />
-              <stop offset="100%" stopColor="#3a6b4a" />
+              <stop offset="0%" stopColor="#020408" />
+              <stop offset="60%" stopColor="#0a0e1a" />
+              <stop offset="100%" stopColor="#111828" />
             </linearGradient>
+            <radialGradient id="nebulaA" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#3a1a6b" stopOpacity="0.35" />
+              <stop offset="100%" stopColor="#3a1a6b" stopOpacity="0" />
+            </radialGradient>
+            <radialGradient id="nebulaB" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#1a3a6b" stopOpacity="0.25" />
+              <stop offset="100%" stopColor="#1a3a6b" stopOpacity="0" />
+            </radialGradient>
+            <radialGradient id="moonGlow" cx="50%" cy="50%" r="50%">
+              <stop offset="0%" stopColor="#fffbe8" stopOpacity="0.3" />
+              <stop offset="100%" stopColor="#fffbe8" stopOpacity="0" />
+            </radialGradient>
           </defs>
           <rect width="1440" height="700" fill="url(#skyGrad)" />
+          {/* Nebula clouds */}
+          <ellipse cx="300" cy="180" rx="280" ry="160" fill="url(#nebulaA)" />
+          <ellipse cx="1100" cy="120" rx="220" ry="130" fill="url(#nebulaB)" />
+          <ellipse cx="720" cy="280" rx="340" ry="140" fill="url(#nebulaA)" />
+          {/* Shooting stars */}
+          <line className="ss1" x1="150"  y1="50"  x2="210" y2="80"  stroke="white" strokeWidth="1.5" />
+          <line className="ss2" x1="850"  y1="20"  x2="900" y2="55"  stroke="white" strokeWidth="1.5" />
+          <line className="ss3" x1="1100" y1="70"  x2="1150" y2="100" stroke="white" strokeWidth="1.5" />
+          <line className="ss4" x1="450"  y1="35"  x2="490" y2="75"  stroke="white" strokeWidth="1.5" />
+          <line className="ss5" x1="680"  y1="15"  x2="730" y2="50"  stroke="white" strokeWidth="1.5" />
+          <line className="ss6" x1="1300" y1="45"  x2="1350" y2="80" stroke="white" strokeWidth="1.5" />
+          {/* Stars */}
+          {[
+            [120,30],[245,18],[380,55],[510,22],[640,40],[770,12],[900,48],[1030,25],[1160,38],[1300,15],[1420,42],
+            [60,80],[190,95],[320,70],[450,88],[580,62],[710,90],[840,75],[970,85],[1100,68],[1230,92],[1380,78],
+            [150,130],[280,115],[410,140],[540,122],[670,135],[800,118],[930,145],[1060,128],[1190,142],[1320,110],
+            [80,170],[210,185],[340,165],[470,178],[600,162],[730,188],[860,172],[990,182],[1120,168],[1250,190],[1400,160],
+            [35,220],[165,235],[295,215],[425,228],[555,212],[685,238],[815,222],[945,232],[1075,218],[1205,240],[1355,225],
+            [100,270],[230,255],[360,268],[490,245],[620,272],[750,258],[880,265],[1010,248],[1140,275],[1270,252],[1410,268],
+            [55,320],[185,308],[315,325],[445,312],[575,330],[705,315],[835,322],[965,310],[1095,328],[1225,305],[1375,318],
+            [130,370],[260,358],[390,375],[520,362],[650,380],[780,365],[910,372],[1040,360],[1170,378],[1310,355],[1430,368],
+            [45,420],[175,408],[305,425],[435,412],[565,430],[695,415],[825,422],[955,410],[1085,428],[1215,405],[1385,418],
+            [110,465],[240,452],[370,468],[500,455],[630,472],[760,458],[890,465],[1020,453],[1150,470],[1280,450],[1420,462],
+          ].map(([x, y], i) => (
+            <circle key={i} cx={x} cy={y} r={i % 4 === 0 ? 1.8 : i % 3 === 0 ? 1.2 : 0.8} fill="white" opacity={i % 5 === 0 ? 0.9 : i % 3 === 0 ? 0.6 : 0.4} />
+          ))}
 
           {/* Porch floor */}
           <rect x="0" y="580" width="1440" height="120" fill="#141828" />
@@ -123,63 +176,30 @@ export default function Home() {
             <line key={y} x1="0" y1={y} x2="1440" y2={y} stroke="#0f1220" strokeWidth="1.5" opacity="0.6" />
           ))}
 
-          {/* Vertical railings — white */}
-          {Array.from({ length: 72 }, (_, i) => (
-            <rect key={i} x={i * 20 + 4} y="480" width="6" height="100" rx="3" fill="#d0cfc8" opacity="0.9" />
-          ))}
+          {/* Columns, rails, balusters — grouped so opacity doesn't compound */}
+          <g opacity="0.65">
+            {/* Porch columns */}
+            {[300, 1140].map(x => (
+              <g key={x}>
+                <rect x={x - 14} y="0" width="28" height="590" rx="3" fill="#d0cfc8" />
+                <rect x={x + 10} y="0" width="5" height="590" rx="2" fill="#00000020" />
+              </g>
+            ))}
+            {/* Top rail */}
+            <rect x="0" y="475" width="1440" height="10" rx="2" fill="#d0cfc8" />
+            {/* Bottom rail */}
+            <rect x="0" y="578" width="1440" height="10" rx="2" fill="#d0cfc8" />
+            {/* Vertical balusters */}
+            {Array.from({ length: 36 }, (_, i) => (
+              <rect key={i} x={i * 40 + 4} y="480" width="10" height="100" rx="3" fill="#d0cfc8" />
+            ))}
+          </g>
 
-          {/* Top rail — white */}
-          <rect x="0" y="475" width="1440" height="10" rx="2" fill="#d0cfc8" opacity="0.95" />
-          {/* Bottom rail — white */}
-          <rect x="0" y="578" width="1440" height="10" rx="2" fill="#d0cfc8" opacity="0.95" />
-
-          {/* Porch columns — white */}
-          {[80, 400, 720, 1040, 1360].map(x => (
-            <g key={x}>
-              <rect x={x - 14} y="0" width="28" height="590" rx="3" fill="#d0cfc8" opacity="0.95" />
-              <rect x={x + 10} y="0" width="5" height="590" rx="2" fill="#00000015" />
-            </g>
-          ))}
-
-          {/* Dark bar behind lights with board lines */}
-          <rect x="0" y="0" width="1440" height="150" fill="#141828" />
-          {[10, 20, 30, 40, 50, 60, 70, 80, 90, 100, 110, 120, 130, 140].map(y => (
-            <line key={y} x1="0" y1={y} x2="1440" y2={y} stroke="#0f1220" strokeWidth="1.5" opacity="0.6" />
-          ))}
-
-          {/* String light wire */}
-          <path d="M0,80 Q120,110 240,85 Q360,60 480,90 Q600,115 720,85 Q840,60 960,90 Q1080,115 1200,85 Q1320,60 1440,80" stroke="#a09060" strokeWidth="2" fill="none" />
-
-          {/* Light bulbs — positioned exactly on the wire */}
-          {[
-            { x: 60,   y: 92 },
-            { x: 180,  y: 94 },
-            { x: 300,  y: 76 },
-            { x: 420,  y: 78 },
-            { x: 540,  y: 99 },
-            { x: 660,  y: 97 },
-            { x: 780,  y: 76 },
-            { x: 900,  y: 78 },
-            { x: 1020, y: 99 },
-            { x: 1140, y: 97 },
-            { x: 1260, y: 75 },
-            { x: 1380, y: 73 },
-          ].map(({ x, y }) => (
-            <g key={x}>
-              <ellipse cx={x} cy={y + 14} rx="10" ry="14" fill="#fef3b0" opacity="0.95" />
-              <ellipse cx={x} cy={y + 14} rx="20" ry="22" fill="#fef3b0" opacity="0.2" />
-              <ellipse cx={x} cy={y + 14} rx="40" ry="36" fill="#ffcc00" opacity="0.08" />
-              <rect x={x - 4} y={y} width="8" height="6" rx="2" fill="#8b7340" />
-            </g>
-          ))}
 
           {/* Porch swing */}
-          {/* Fixed anchor points */}
-          <circle cx="500" cy="148" r="7" fill="#a09060" />
-          <circle cx="940" cy="148" r="7" fill="#a09060" />
-          {/* Ropes — tops stay at anchors, bottoms track swing rotation */}
-          <line ref={leftRopeRef} x1="500" y1="148" x2="470" y2="490" stroke="#a09060" strokeWidth="4" />
-          <line ref={rightRopeRef} x1="940" y1="148" x2="970" y2="490" stroke="#a09060" strokeWidth="4" />
+          {/* Ropes — tops disappear above SVG, bottoms track swing rotation */}
+          <line ref={leftRopeRef} x1="500" y1="-10" x2="470" y2="490" stroke="#a09060" strokeWidth="4" />
+          <line ref={rightRopeRef} x1="940" y1="-10" x2="970" y2="490" stroke="#a09060" strokeWidth="4" />
           {/* Swing body — rotates around pivot */}
           <g ref={swingGroupRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{ cursor: 'pointer' }}>
           <rect x="455" y="390" width="530" height="16" rx="6" fill="#7a5530" />
@@ -198,21 +218,21 @@ export default function Home() {
           </g>
         </svg>
 
-        <div className="relative z-10 flex flex-col items-center max-w-3xl">
-          <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight text-white leading-tight" style={{WebkitTextStroke: '6px #496b92', paintOrder: 'stroke fill'}}>
+        <div className="relative z-10 flex flex-col items-center max-w-3xl -mt-48">
+          <h1 className="text-5xl sm:text-7xl font-extrabold tracking-tight leading-tight" style={{color: '#d4d4d4', WebkitTextStroke: '6px #496b92', paintOrder: 'stroke fill'}}>
             Porch Swing Software
           </h1>
           <p className="mt-6 text-xl sm:text-2xl text-c1 max-w-xl leading-relaxed" style={{WebkitTextStroke: '4px #496b92', paintOrder: 'stroke fill'}}>
             Life's a breeze with the right software.
           </p>
-          <div className="mt-10 flex flex-col sm:flex-row gap-4">
-            <a href="/book" className="bg-taupe text-ink font-bold px-8 py-4 rounded-full text-lg hover:bg-primary hover:text-ink transition-all shadow-lg">
-              Book a free consultation
-            </a>
-            <a href="#what-i-do" className="border border-primary/40 text-primary font-semibold px-8 py-4 rounded-full text-lg hover:bg-primary/10 transition-all">
-              See what I do
-            </a>
-          </div>
+        </div>
+        <div className="relative z-10 flex flex-col sm:flex-row gap-4 mt-10">
+          <a href="/book" className="bg-taupe text-ink font-bold px-8 py-4 rounded-full text-lg hover:bg-primary hover:text-ink transition-all shadow-lg">
+            Book a free consultation
+          </a>
+          <a href="#what-i-do" className="border border-primary/40 text-primary font-semibold px-8 py-4 rounded-full text-lg hover:bg-primary/10 transition-all">
+            See what we do
+          </a>
         </div>
       </section>
 
@@ -223,10 +243,10 @@ export default function Home() {
           <h2 className="text-2xl sm:text-4xl font-bold text-taupe mb-10">Here's where I come in</h2>
           <div className="flex flex-col gap-4 text-left">
             {[
-              { icon: '🌐', title: 'You need a web presence', text: "Whether it's a landing page, a full site, or somewhere to host your product — I'll get you online fast." },
+              { icon: '🌐', title: 'You need a web presence', text: "Whether it's a landing page, a full site, or somewhere to host your product — We'll get you online fast." },
               { icon: '⚙️', title: 'Your tools are slowing you down', text: "If the software you use every day creates more friction than it removes, something better can be built." },
-              { icon: '🔁', title: 'You\'re doing the same thing over and over', text: "If you can describe it, I can automate it — freeing your time for the work that actually matters." },
-              { icon: '🏗️', title: 'You need a system built from scratch, customized to you', text: "No off-the-shelf solution fits? I'll build exactly what your business needs." },
+              { icon: '🔁', title: 'You\'re doing the same thing over and over', text: "If you can describe it, we can automate it — freeing your time for the work that actually matters." },
+              { icon: '🏗️', title: 'You need a system built from scratch, customized to you', text: "No off-the-shelf solution fits? We'll build exactly what your business needs." },
             ].map(({ icon, title, text }) => (
               <div key={title} className="flex items-start gap-5 bg-ink/20 rounded-2xl p-6 border border-taupe/30 hover:border-taupe/60 transition-all">
                 <span className="text-4xl mt-1">{icon}</span>
@@ -244,21 +264,34 @@ export default function Home() {
       </section>
 
       {/* How it works */}
-      <section className="bg-navy py-28 px-6">
-        <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl sm:text-5xl font-bold text-ink mb-4">How It Works</h2>
-          <p className="text-ink mb-16 text-lg opacity-70">Just three simple steps.</p>
+      <section className="relative py-28 px-6 overflow-hidden" style={{background: 'linear-gradient(to bottom, #060d18 0%, #1a3a5c 40%, #7a3a1e 70%, #9e5030 100%)'}}>
+        {/* Stars */}
+        <svg className="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 1440 500" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg">
+          {[
+            [80,40],[200,25],[350,60],[500,30],[650,50],[800,20],[950,45],[1100,30],[1250,55],[1400,25],
+            [130,100],[280,85],[430,110],[580,90],[730,105],[880,80],[1030,100],[1180,88],[1330,108],
+            [50,160],[190,145],[340,170],[490,150],[640,165],[790,140],[940,160],[1090,148],[1240,168],[1390,145],
+            [100,220],[250,205],[400,225],[550,210],[700,220],[850,200],[1000,218],[1150,208],[1300,222],[1420,205],
+            [70,280],[220,265],[370,282],[520,268],[670,278],[820,262],[970,275],[1120,268],[1270,280],[1410,265],
+          ].map(([x, y], i) => (
+            <circle key={i} cx={x} cy={y} r={i % 4 === 0 ? 1.5 : i % 3 === 0 ? 1 : 0.6} fill="white" opacity={i % 5 === 0 ? 0.8 : i % 3 === 0 ? 0.5 : 0.3} />
+          ))}
+        </svg>
+        <div className="relative z-10 max-w-4xl mx-auto text-center">
+          <h2 className="text-3xl sm:text-5xl font-bold text-primary mb-4">How It Works</h2>
+          <p className="text-primary/50 mb-16 text-lg">Just four simple steps.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
             {[
-              { step: '01', title: 'Book a Call', desc: 'Tell me your problem in a free 30-minute consultation.' },
-              { step: '02', title: 'Get a Plan', desc: "I'll outline exactly what needs to be built and what it'll cost." },
-              { step: '03', title: 'Play Ping Pong', desc: 'Every project is iterative. We go back and forth until it\'s exactly what you need.' },
-              { step: '04', title: 'Problem Solved', desc: 'You stop having the problem. Simple.' },
-            ].map(({ step, title, desc }) => (
-              <div key={step} className="flex flex-col items-center">
-                <div className="text-5xl font-extrabold text-olive/40 mb-4">{step}</div>
-                <h3 className="text-lg font-bold text-ink mb-2">{title}</h3>
-                <p className="text-ink/60 text-sm leading-relaxed">{desc}</p>
+              { step: '1', icon: '📡', title: 'Book a Call', desc: 'Tell me your problem in a free 30-minute consultation.' },
+              { step: '2', icon: '🗺️', title: 'Make a Plan', desc: "We'll outline exactly what needs to be built and what it'll cost." },
+              { step: '3', icon: '🔄', title: 'We Iterate', desc: "We go back and forth until it's exactly what you need." },
+              { step: '4', icon: '🚀', title: 'Problem Solved', desc: 'You stop having the problem. Simple.' },
+            ].map(({ step, icon, title, desc }) => (
+              <div key={step} className="flex flex-col items-center border border-primary/10 rounded-2xl p-8 bg-white/5 backdrop-blur-sm">
+                <div className="text-4xl mb-3">{icon}</div>
+                <div className="text-4xl font-extrabold text-primary/20 mb-2">{step}</div>
+                <h3 className="text-lg font-bold text-primary mb-2">{title}</h3>
+                <p className="text-primary/60 text-sm leading-relaxed">{desc}</p>
               </div>
             ))}
           </div>
@@ -277,7 +310,12 @@ export default function Home() {
       {/* Footer */}
       <footer className="bg-ink border-t border-olive/20 py-8 px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
         <p className="text-muted text-sm">© {new Date().getFullYear()} Porch Swing Software</p>
-        <a href="/book" className="text-sm text-muted hover:text-primary transition-colors">Book a call</a>
+        <div className="flex items-center gap-6">
+          <a href="/" className="text-sm text-muted hover:text-primary transition-colors">Home</a>
+          <a href="/about" className="text-sm text-muted hover:text-primary transition-colors">About</a>
+          <a href="/contact" className="text-sm text-muted hover:text-primary transition-colors">Contact</a>
+          <a href="/book" className="text-sm text-muted hover:text-primary transition-colors">Book a call</a>
+        </div>
       </footer>
     </>
   )

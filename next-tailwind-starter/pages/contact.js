@@ -40,14 +40,14 @@ export default function Contact() {
             Reach Out Today!
           </h1>
           <p className="text-primary/70 text-lg mb-10 leading-relaxed">
-            Whether you want to collaborate on a project, ask a random question, or just get introduced — I'd love to make it happen. Or skip the form and{' '}
+            Whether you want to collaborate on a project, ask a random question, or just get introduced — We'd love to make it happen. Or skip the form and{' '}
             <a href="/book" className="text-taupe hover:underline">book a time</a> with me today!
           </p>
 
           {submitted ? (
             <div className="bg-navy rounded-2xl p-8 text-center">
               <p className="text-taupe text-2xl font-bold mb-2">Message sent!</p>
-              <p className="text-primary/70">I'll get back to you soon.</p>
+              <p className="text-primary/70">We'll get back to you soon.</p>
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-5">
