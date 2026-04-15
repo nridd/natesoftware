@@ -116,18 +116,70 @@ export default function Home() {
             @keyframes shoot4 { 0%,100%{opacity:0;transform:translate(0,0)} 1%{opacity:1} 5%{opacity:0;transform:translate(160px,200px)} }
             @keyframes shoot5 { 0%,100%{opacity:0;transform:translate(0,0)} 1%{opacity:1} 5%{opacity:0;transform:translate(300px,160px)} }
             @keyframes shoot6 { 0%,100%{opacity:0;transform:translate(0,0)} 1%{opacity:1} 5%{opacity:0;transform:translate(240px,140px)} }
-            .ss1 { animation: shoot1 24s linear infinite; animation-delay: 0s; opacity: 0; }
+            .ss1 { animation: shoot1 24s linear infinite; animation-delay: 60s; opacity: 0; }
             .ss2 { animation: shoot2 24s linear infinite; animation-delay: 4s; opacity: 0; }
             .ss3 { animation: shoot3 24s linear infinite; animation-delay: 8s; opacity: 0; }
             .ss4 { animation: shoot4 24s linear infinite; animation-delay: 12s; opacity: 0; }
             .ss5 { animation: shoot5 24s linear infinite; animation-delay: 16s; opacity: 0; }
             .ss6 { animation: shoot6 24s linear infinite; animation-delay: 20s; opacity: 0; }
+            @keyframes ufo-fly {
+              0%     { transform: translate(-200px, 300px); opacity: 0; }
+              10%    { transform: translate(-200px, 300px); opacity: 0; animation-timing-function: linear; }
+              10.25% { transform: translate(-100px, 285px); opacity: 1; animation-timing-function: linear; }
+              11%    { transform: translate(350px, 230px); animation-timing-function: linear; }
+              11.75% { transform: translate(500px, 140px); animation-timing-function: linear; }
+              12.5%  { transform: translate(650px, 230px); animation-timing-function: linear; }
+              13.25% { transform: translate(500px, 320px); animation-timing-function: linear; }
+              14%    { transform: translate(350px, 230px); animation-timing-function: linear; }
+              17%    { transform: translate(1200px, 400px); animation-timing-function: linear; }
+              21%    { transform: translate(1200px, 400px); animation-timing-function: linear; }
+              21.75% { transform: translate(650px, 240px); animation-timing-function: linear; }
+              22.5%  { transform: translate(500px, 320px); animation-timing-function: linear; }
+              23.25% { transform: translate(350px, 230px); animation-timing-function: linear; }
+              24%    { transform: translate(500px, 140px); animation-timing-function: linear; }
+              24.5%  { transform: translate(-100px, 285px); opacity: 1; animation-timing-function: linear; }
+              25%    { transform: translate(-200px, 300px); opacity: 0; }
+              100%   { transform: translate(-200px, 300px); opacity: 0; }
+            }
+            .ufo-group { transform-box: view-box; animation: ufo-fly 60s linear infinite; animation-delay: 60s; opacity: 0; }
+
+            @keyframes mouse-run {
+              /* Run in from right, go to center, run back — all before UFO enters */
+              0%    { transform: translate(1650px, 610px) scale(-2.5, 2.5); opacity: 0; }
+              0.5%  { transform: translate(1500px, 610px) scale(-2.5, 2.5); opacity: 1; }
+              2%    { transform: translate(1200px, 610px) scale(-2.5, 2.5); }
+              4%    { transform: translate(900px, 610px) scale(-2.5, 2.5); }
+              5.9%  { transform: translate(900px, 610px) scale(-2.5, 2.5); }
+              6%    { transform: translate(900px, 610px) scale(2.5, 2.5); }
+              8%    { transform: translate(1200px, 610px) scale(2.5, 2.5); }
+              /* Parked — UFO enters at ~1%, loops, stops above mouse ~30% */
+              10%   { transform: translate(1200px, 610px) scale(2.5, 2.5); opacity: 1; }
+              17.5% { transform: translate(1200px, 610px) scale(2.5, 2.5); opacity: 1; }
+              19.5% { transform: translate(1200px, 520px) scale(2.5, 2.5); opacity: 1; }
+              20.5% { transform: translate(1200px, 440px) scale(2.5, 2.5); opacity: 0.3; }
+              21%   { transform: translate(1200px, 430px) scale(2.5, 2.5); opacity: 0; }
+              100%  { transform: translate(1650px, 610px) scale(-2.5, 2.5); opacity: 0; }
+            }
+            .mouse-group { transform-box: view-box; animation: mouse-run 60s linear infinite; animation-delay: 60s; opacity: 0; }
+
+            @keyframes beam-anim {
+              0%, 17.5% { opacity: 0; }
+              18.5%     { opacity: 0.6; }
+              20.5%     { opacity: 0.6; }
+              21%       { opacity: 0; }
+              100%      { opacity: 0; }
+            }
+            .ufo-beam { animation: beam-anim 60s linear infinite; animation-delay: 60s; opacity: 0; }
           `}</style>
           <defs>
             <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0%" stopColor="#020408" />
               <stop offset="60%" stopColor="#0a0e1a" />
               <stop offset="100%" stopColor="#111828" />
+            </linearGradient>
+            <linearGradient id="beamGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stopColor="#44ffcc" stopOpacity="0.9" />
+              <stop offset="100%" stopColor="#44ffcc" stopOpacity="0.05" />
             </linearGradient>
             <radialGradient id="nebulaA" cx="50%" cy="50%" r="50%">
               <stop offset="0%" stopColor="#3a1a6b" stopOpacity="0.35" />
@@ -215,6 +267,34 @@ export default function Home() {
           <rect x="435" y="426" width="46" height="12" rx="4" fill="#8b6a3a" />
           <rect x="974" y="430" width="16" height="80" rx="4" fill="#7a5530" />
           <rect x="959" y="426" width="46" height="12" rx="4" fill="#8b6a3a" />
+          </g>
+
+          {/* Mouse */}
+          <g className="mouse-group">
+            <ellipse cx="-3" cy="0" rx="9" ry="5.5" fill="#c0b8a8" />
+            <circle cx="8" cy="-1" r="5.5" fill="#c0b8a8" />
+            <circle cx="6" cy="-6.5" r="3" fill="#c0b8a8" />
+            <circle cx="12" cy="-6" r="2.8" fill="#c0b8a8" />
+            <circle cx="6" cy="-6.5" r="1.8" fill="#e8a0b0" opacity="0.8" />
+            <circle cx="12" cy="-6" r="1.6" fill="#e8a0b0" opacity="0.8" />
+            <circle cx="11" cy="-2" r="1" fill="#111" />
+            <circle cx="14" cy="0.5" r="0.7" fill="#e8a0b0" />
+            <path d="M-12,1 Q-20,-5 -17,7" stroke="#c0b8a8" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+          </g>
+
+          {/* Abduction beam */}
+          <polygon className="ufo-beam" points="1200,418 1155,620 1245,620" fill="url(#beamGrad)" />
+
+          {/* UFO */}
+          <g className="ufo-group">
+            <ellipse cx="0" cy="8" rx="38" ry="10" fill="#44ffaa" opacity="0.12" />
+            <ellipse cx="0" cy="2" rx="24" ry="8" fill="#b0c8e0" />
+            <ellipse cx="0" cy="-2" rx="24" ry="4" fill="#c8d8ec" opacity="0.6" />
+            <ellipse cx="0" cy="-7" rx="11" ry="8" fill="#7aaacc" opacity="0.95" />
+            <circle cx="-13" cy="2" r="2.5" fill="#fef3b0" opacity="0.9" />
+            <circle cx="0"   cy="5" r="2.5" fill="#fef3b0" opacity="0.9" />
+            <circle cx="13"  cy="2" r="2.5" fill="#fef3b0" opacity="0.9" />
+            <polygon points="0,10 -18,35 18,35" fill="#44ffaa" opacity="0.08" />
           </g>
         </svg>
 
