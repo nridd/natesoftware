@@ -20,11 +20,8 @@ export default function About() {
           <p className="text-primary/80 text-lg leading-relaxed mb-6">
             Every summer since the beginning of high school, I have had a summer project, where I spend the summer learning and building something that I can use. I like making wacky looking things. I think that good engineering is SEXY. I've built drones, desks, computers, knives, and most recently a porch swing. I've decided this is my summer project — entrepreneurship.
           </p>
-          <p className="text-primary/80 text-lg leading-relaxed mb-6">
-            Thank you for listening to my ramblings. Have a great day!
-          </p>
           <p className="text-primary/80 text-lg leading-relaxed">
-            Thank you for your patience. The mouse's name is Iain.
+            Thank you for listening to my ramblings. Have a great day!
           </p>
 
 
