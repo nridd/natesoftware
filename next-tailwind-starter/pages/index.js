@@ -1,11 +1,12 @@
 import Nav from '../components/Nav'
-import { useRef, useEffect } from 'react'
+import { useRef, useEffect, useState } from 'react'
 
 const PIVOT = { x: 720, y: -10 }
 const LEFT_ATTACH = { x: 470, y: 490 }
 const RIGHT_ATTACH = { x: 970, y: 490 }
 
 export default function Home() {
+  const [openWhatIDoItem, setOpenWhatIDoItem] = useState(0)
   const angleRef = useRef(0)
   const velocityRef = useRef(0)
   const rafRef = useRef(null)
@@ -123,53 +124,52 @@ export default function Home() {
             .ss5 { animation: shoot5 24s linear infinite; animation-delay: 16s; opacity: 0; }
             .ss6 { animation: shoot6 24s linear infinite; animation-delay: 20s; opacity: 0; }
             @keyframes ufo-fly {
-              0%     { transform: translate(-200px, 300px); opacity: 0; }
-              10%    { transform: translate(-200px, 300px); opacity: 0; animation-timing-function: linear; }
-              10.25% { transform: translate(-100px, 285px); opacity: 1; animation-timing-function: linear; }
-              11%    { transform: translate(350px, 230px); animation-timing-function: linear; }
-              11.75% { transform: translate(500px, 140px); animation-timing-function: linear; }
-              12.5%  { transform: translate(650px, 230px); animation-timing-function: linear; }
-              13.25% { transform: translate(500px, 320px); animation-timing-function: linear; }
-              14%    { transform: translate(350px, 230px); animation-timing-function: linear; }
-              17%    { transform: translate(1200px, 400px); animation-timing-function: linear; }
-              21%    { transform: translate(1200px, 400px); animation-timing-function: linear; }
-              21.75% { transform: translate(650px, 240px); animation-timing-function: linear; }
-              22.5%  { transform: translate(500px, 320px); animation-timing-function: linear; }
-              23.25% { transform: translate(350px, 230px); animation-timing-function: linear; }
-              24%    { transform: translate(500px, 140px); animation-timing-function: linear; }
-              24.5%  { transform: translate(-100px, 285px); opacity: 1; animation-timing-function: linear; }
-              25%    { transform: translate(-200px, 300px); opacity: 0; }
-              100%   { transform: translate(-200px, 300px); opacity: 0; }
+              0%      { transform: translate(-200px, 300px); opacity: 0; }
+              5%      { transform: translate(-200px, 300px); opacity: 0; animation-timing-function: linear; }
+              5.125%  { transform: translate(-100px, 285px); opacity: 1; animation-timing-function: linear; }
+              5.5%    { transform: translate(350px, 230px); animation-timing-function: linear; }
+              5.875%  { transform: translate(500px, 140px); animation-timing-function: linear; }
+              6.25%   { transform: translate(650px, 230px); animation-timing-function: linear; }
+              6.625%  { transform: translate(500px, 320px); animation-timing-function: linear; }
+              7%      { transform: translate(350px, 230px); animation-timing-function: linear; }
+              8.5%    { transform: translate(1200px, 400px); animation-timing-function: linear; }
+              10.5%   { transform: translate(1200px, 400px); animation-timing-function: linear; }
+              10.875% { transform: translate(650px, 240px); animation-timing-function: linear; }
+              11.25%  { transform: translate(500px, 320px); animation-timing-function: linear; }
+              11.625% { transform: translate(350px, 230px); animation-timing-function: linear; }
+              12%     { transform: translate(500px, 140px); animation-timing-function: linear; }
+              12.25%  { transform: translate(-100px, 285px); opacity: 1; animation-timing-function: linear; }
+              12.5%   { transform: translate(-200px, 300px); opacity: 0; }
+              100%    { transform: translate(-200px, 300px); opacity: 0; }
             }
-            .ufo-group { transform-box: view-box; animation: ufo-fly 60s linear infinite; animation-delay: 60s; opacity: 0; }
+            .ufo-group { transform-box: view-box; animation: ufo-fly 120s linear infinite; animation-delay: 120s; opacity: 0; }
 
             @keyframes mouse-run {
               /* Run in from right, go to center, run back — all before UFO enters */
-              0%    { transform: translate(1650px, 610px) scale(-2.5, 2.5); opacity: 0; }
-              0.5%  { transform: translate(1500px, 610px) scale(-2.5, 2.5); opacity: 1; }
-              2%    { transform: translate(1200px, 610px) scale(-2.5, 2.5); }
-              4%    { transform: translate(900px, 610px) scale(-2.5, 2.5); }
-              5.9%  { transform: translate(900px, 610px) scale(-2.5, 2.5); }
-              6%    { transform: translate(900px, 610px) scale(2.5, 2.5); }
-              8%    { transform: translate(1200px, 610px) scale(2.5, 2.5); }
-              /* Parked — UFO enters at ~1%, loops, stops above mouse ~30% */
-              10%   { transform: translate(1200px, 610px) scale(2.5, 2.5); opacity: 1; }
-              17.5% { transform: translate(1200px, 610px) scale(2.5, 2.5); opacity: 1; }
-              19.5% { transform: translate(1200px, 520px) scale(2.5, 2.5); opacity: 1; }
-              20.5% { transform: translate(1200px, 440px) scale(2.5, 2.5); opacity: 0.3; }
-              21%   { transform: translate(1200px, 430px) scale(2.5, 2.5); opacity: 0; }
-              100%  { transform: translate(1650px, 610px) scale(-2.5, 2.5); opacity: 0; }
+              0%     { transform: translate(1650px, 610px) scale(-2.5, 2.5); opacity: 0; }
+              0.25%  { transform: translate(1500px, 610px) scale(-2.5, 2.5); opacity: 1; }
+              1%     { transform: translate(1200px, 610px) scale(-2.5, 2.5); }
+              2%     { transform: translate(900px, 610px) scale(-2.5, 2.5); }
+              2.95%  { transform: translate(900px, 610px) scale(-2.5, 2.5); }
+              3%     { transform: translate(900px, 610px) scale(2.5, 2.5); }
+              4%     { transform: translate(1200px, 610px) scale(2.5, 2.5); }
+              5%     { transform: translate(1200px, 610px) scale(2.5, 2.5); opacity: 1; }
+              8.75%  { transform: translate(1200px, 610px) scale(2.5, 2.5); opacity: 1; }
+              9.75%  { transform: translate(1200px, 520px) scale(2.5, 2.5); opacity: 1; }
+              10.25% { transform: translate(1200px, 440px) scale(2.5, 2.5); opacity: 0.3; }
+              10.5%  { transform: translate(1200px, 430px) scale(2.5, 2.5); opacity: 0; }
+              100%   { transform: translate(1650px, 610px) scale(-2.5, 2.5); opacity: 0; }
             }
-            .mouse-group { transform-box: view-box; animation: mouse-run 60s linear infinite; animation-delay: 60s; opacity: 0; }
+            .mouse-group { transform-box: view-box; animation: mouse-run 120s linear infinite; animation-delay: 120s; opacity: 0; }
 
             @keyframes beam-anim {
-              0%, 17.5% { opacity: 0; }
-              18.5%     { opacity: 0.6; }
-              20.5%     { opacity: 0.6; }
-              21%       { opacity: 0; }
+              0%, 8.75% { opacity: 0; }
+              9.25%     { opacity: 0.6; }
+              10.25%    { opacity: 0.6; }
+              10.5%     { opacity: 0; }
               100%      { opacity: 0; }
             }
-            .ufo-beam { animation: beam-anim 60s linear infinite; animation-delay: 60s; opacity: 0; }
+            .ufo-beam { animation: beam-anim 120s linear infinite; animation-delay: 120s; opacity: 0; }
           `}</style>
           <defs>
             <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
@@ -319,26 +319,26 @@ export default function Home() {
 
       {/* Who I help */}
       <section id="what-i-do" className="bg-ink py-28 px-6">
-        <div className="max-w-3xl mx-auto text-center">
-          <h2 className="text-2xl sm:text-4xl font-bold text-taupe mb-10">Here's where I come in</h2>
-          <div className="flex flex-col gap-4 text-left">
+        <div className="max-w-4xl mx-auto text-center">
+          <h2 className="text-2xl sm:text-4xl font-bold text-taupe mb-10">Sound familiar?</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 text-left">
             {[
-              { icon: '🌐', title: 'You need a web presence', text: "Whether it's a landing page, a full site, or somewhere to host your product — We'll get you online fast." },
-              { icon: '⚙️', title: 'Your tools are slowing you down', text: "If the software you use every day creates more friction than it removes, something better can be built." },
-              { icon: '🔁', title: 'You\'re doing the same thing over and over', text: "If you can describe it, we can automate it — freeing your time for the work that actually matters." },
-              { icon: '🏗️', title: 'You need a system built from scratch, customized to you', text: "No off-the-shelf solution fits? We'll build exactly what your business needs." },
-            ].map(({ icon, title, text }) => (
-              <div key={title} className="flex items-start gap-5 bg-ink/20 rounded-2xl p-6 border border-taupe/30 hover:border-taupe/60 transition-all">
-                <span className="text-4xl mt-1">{icon}</span>
-                <div>
-                  <h3 className="text-taupe font-bold text-lg mb-1">{title}</h3>
-                  <p className="text-primary/70 text-sm leading-relaxed">{text}</p>
-                </div>
+              { icon: '🌐', title: 'You need to be found online.', bullets: ['Landing pages, portfolios, full product sites', 'Shows up when someone Googles you', 'Fast turnaround, mobile-friendly, actually looks good'] },
+              { icon: '⚙️', title: 'Your tools almost work.', bullets: ["Familiar software with frustrating gaps", "We fill them — custom features, integrations, and fixes", "Built on top of what you already use"] },
+              { icon: '🔁', title: "You're drowning in repetition.", bullets: ['Copy-pasting, re-entering data, sending the same emails', 'Weekly reports, invoice follow-ups, scheduling', "If you can describe it, we can automate it"] },
+              { icon: '🏗️', title: 'Available systems don\'t fit.', bullets: ['Off-the-shelf software wasn\'t built for your business', "We learn exactly how you operate", "Then build something that works"] },
+            ].map(({ icon, title, bullets }) => (
+              <div key={title} className="flex flex-col gap-3 bg-ink/20 rounded-2xl p-6 border border-taupe/30 hover:border-taupe/60 transition-all">
+                <span className="text-4xl">{icon}</span>
+                <h3 className="text-taupe font-bold text-lg">{title}</h3>
+                <ul className="text-primary/70 text-sm leading-relaxed space-y-1">
+                  {bullets.map(b => <li key={b} className="flex items-start gap-2"><span className="text-taupe/50 mt-0.5">—</span>{b}</li>)}
+                </ul>
               </div>
             ))}
           </div>
           <a href="/book" className="mt-10 inline-block bg-taupe text-ink font-bold px-8 py-4 rounded-full text-lg hover:bg-primary transition-colors">
-            Let's talk
+            Solve the problem
           </a>
         </div>
       </section>
@@ -359,19 +359,21 @@ export default function Home() {
         </svg>
         <div className="relative z-10 max-w-4xl mx-auto text-center">
           <h2 className="text-3xl sm:text-5xl font-bold text-primary mb-4">How It Works</h2>
-          <p className="text-primary/50 mb-16 text-lg">Just four simple steps.</p>
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-10">
+          <p className="text-primary/70 mb-16 text-lg">Just four simple steps.</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             {[
-              { step: '1', icon: '📡', title: 'Book a Call', desc: 'Tell me your problem in a free 30-minute consultation.' },
+              { step: '1', icon: '📡', title: 'Book a Call', desc: 'Tell us your problem in a free 30-minute consultation.' },
               { step: '2', icon: '🗺️', title: 'Make a Plan', desc: "We'll outline exactly what needs to be built and what it'll cost." },
               { step: '3', icon: '🔄', title: 'We Iterate', desc: "We go back and forth until it's exactly what you need." },
               { step: '4', icon: '🚀', title: 'Problem Solved', desc: 'You stop having the problem. Simple.' },
             ].map(({ step, icon, title, desc }) => (
-              <div key={step} className="flex flex-col items-center border border-primary/10 rounded-2xl p-8 bg-white/5">
-                <div className="text-4xl mb-3">{icon}</div>
-                <div className="text-4xl font-extrabold text-primary/20 mb-2">{step}</div>
-                <h3 className="text-lg font-bold text-primary mb-2">{title}</h3>
-                <p className="text-primary/60 text-sm leading-relaxed">{desc}</p>
+              <div key={step} className="flex items-start gap-5 border border-primary/20 rounded-2xl p-8 bg-white/5 text-left">
+                <div className="text-4xl mt-1 shrink-0">{icon}</div>
+                <div>
+                  <div className="text-xs font-bold text-primary/40 uppercase tracking-widest mb-1">Step {step}</div>
+                  <h3 className="text-xl font-bold text-primary mb-2">{title}</h3>
+                  <p className="text-primary/80 text-sm leading-relaxed">{desc}</p>
+                </div>
               </div>
             ))}
           </div>
