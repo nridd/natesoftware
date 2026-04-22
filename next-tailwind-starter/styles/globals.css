@@ -1,5 +1,14 @@
 @import "tailwindcss";
 
+.mobile-only { display: none; }
+.desktop-only { display: block; }
+
+@media (max-width: 1023px) {
+  .mobile-only { display: block; }
+  .desktop-only { display: none; }
+  .ufo-group, .mouse-group, .ufo-beam { display: none; }
+}
+
 @theme {
   --color-c1: #e3e3e3;
   --color-c2: #f2e5b0;

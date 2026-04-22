@@ -2,11 +2,19 @@ import Nav from '../components/Nav'
 import { useRef, useEffect, useState } from 'react'
 
 const PIVOT = { x: 720, y: -10 }
-const LEFT_ATTACH = { x: 470, y: 490 }
-const RIGHT_ATTACH = { x: 970, y: 490 }
+const LEFT_ATTACH_D  = { x: 470, y: 490 }
+const RIGHT_ATTACH_D = { x: 970, y: 490 }
+const LEFT_ATTACH_M  = { x: 570, y: 490 }
+const RIGHT_ATTACH_M = { x: 870, y: 490 }
+const MOBILE_SWING_SCALE = 0.6
 
 export default function Home() {
   const [openWhatIDoItem, setOpenWhatIDoItem] = useState(0)
+  const [isMobile, setIsMobile] = useState(false)
+  const heroRef = useRef(null)
+  const swingWrapperRef = useRef(null)
+  const logoElRef = useRef(null)
+  const attachRef = useRef({ left: LEFT_ATTACH_D, right: RIGHT_ATTACH_D })
   const angleRef = useRef(0)
   const velocityRef = useRef(0)
   const rafRef = useRef(null)
@@ -18,14 +26,20 @@ export default function Home() {
   const lastMouseXRef = useRef(null)
   const mouseSpeedRef = useRef(0)
   const idleRafRef = useRef(null)
+  const lastTapRef = useRef(null)
+  const tapCountRef = useRef(0)
+  const tapTimerRef = useRef(null)
+  const currentAngleRef = useRef(0)
 
   function updateSwing(angle) {
+    currentAngleRef.current = angle
     const cos = Math.cos(angle)
     const sin = Math.sin(angle)
-    const lDx = LEFT_ATTACH.x - PIVOT.x
-    const lDy = LEFT_ATTACH.y - PIVOT.y
-    const rDx = RIGHT_ATTACH.x - PIVOT.x
-    const rDy = RIGHT_ATTACH.y - PIVOT.y
+    const { left: LA, right: RA } = attachRef.current
+    const lDx = LA.x - PIVOT.x
+    const lDy = LA.y - PIVOT.y
+    const rDx = RA.x - PIVOT.x
+    const rDy = RA.y - PIVOT.y
     const lb = { x: PIVOT.x + lDx * cos - lDy * sin, y: PIVOT.y + lDx * sin + lDy * cos }
     const rb = { x: PIVOT.x + rDx * cos - rDy * sin, y: PIVOT.y + rDx * sin + rDy * cos }
     if (leftRopeRef.current) {
@@ -86,27 +100,99 @@ export default function Home() {
     }, 500)
   }
 
+  function handleTap() {
+    const now = Date.now()
+    const gap = lastTapRef.current ? now - lastTapRef.current : Infinity
+    lastTapRef.current = now
+
+    if (gap < 700) {
+      tapCountRef.current = Math.min(tapCountRef.current + 1, 6)
+    } else {
+      tapCountRef.current = 1
+    }
+    if (tapTimerRef.current) clearTimeout(tapTimerRef.current)
+    tapTimerRef.current = setTimeout(() => { tapCountRef.current = 0 }, 700)
+
+    const strength = 0.002 + tapCountRef.current * 0.008
+    // push in the direction the swing is already moving; if still, push left
+    const dir = velocityRef.current !== 0 ? Math.sign(velocityRef.current) : -1
+
+    if (idleRafRef.current) { cancelAnimationFrame(idleRafRef.current); idleRafRef.current = null }
+    if (rafRef.current) cancelAnimationFrame(rafRef.current)
+    angleRef.current = currentAngleRef.current
+    velocityRef.current += strength * dir
+    rafRef.current = requestAnimationFrame(animate)
+  }
+
+  useEffect(() => {
+    const NAV_H = 72
+    const SWING_TOP_FRAC = 390 / 700
+    const SWING_BOT_FRAC = 516 / 700
+
+    const onScroll = () => {
+      if (!heroRef.current || !swingWrapperRef.current) return
+      const rect = heroRef.current.getBoundingClientRect()
+      const h = heroRef.current.offsetHeight
+      const swingTop = rect.top + SWING_TOP_FRAC * h
+      const swingBot = rect.top + SWING_BOT_FRAC * h
+      const range = (SWING_BOT_FRAC - SWING_TOP_FRAC) * h
+
+      let scaleX = 1
+      let progress = 0
+
+      if (swingTop < NAV_H && swingBot > NAV_H) {
+        progress = Math.max(0, Math.min(1, (NAV_H - swingTop) / range))
+        scaleX = 1 - progress
+      } else if (swingBot <= NAV_H) {
+        scaleX = 0
+        progress = 1
+      }
+
+      swingWrapperRef.current.style.transform = `scaleX(${scaleX})`
+
+      if (logoElRef.current) {
+        logoElRef.current.style.transform = `translateY(${(1 - progress) * 48}px)`
+        logoElRef.current.style.opacity = progress
+        logoElRef.current.style.pointerEvents = progress > 0.9 ? 'auto' : 'none'
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => window.removeEventListener('scroll', onScroll)
+  }, [])
+
   useEffect(() => {
     const trackMouse = (e) => {
       mouseSpeedRef.current = e.movementX
       lastMouseXRef.current = e.clientX
     }
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 1024
+      setIsMobile(mobile)
+      attachRef.current = mobile
+        ? { left: LEFT_ATTACH_M, right: RIGHT_ATTACH_M }
+        : { left: LEFT_ATTACH_D, right: RIGHT_ATTACH_D }
+    }
+    checkMobile()
     window.addEventListener('mousemove', trackMouse)
+    window.addEventListener('resize', checkMobile)
     startIdle()
     return () => {
       window.removeEventListener('mousemove', trackMouse)
+      window.removeEventListener('resize', checkMobile)
       if (rafRef.current) cancelAnimationFrame(rafRef.current)
       if (idleRafRef.current) cancelAnimationFrame(idleRafRef.current)
       if (leaveTimerRef.current) clearTimeout(leaveTimerRef.current)
+      if (tapTimerRef.current) clearTimeout(tapTimerRef.current)
     }
   }, [])
 
   return (
     <>
-      <Nav />
+      <Nav logoRef={logoElRef} />
 
       {/* Hero */}
-      <section className="relative flex flex-col items-center justify-center min-h-[90vh] bg-ink text-center px-6 overflow-hidden">
+      <section ref={heroRef} className="relative flex flex-col items-center justify-center min-h-[90vh] bg-ink text-center px-6 overflow-hidden">
         {/* Porch illustration */}
         <svg className="absolute inset-0 w-full h-full z-0" viewBox="0 0 1440 700" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice">
           {/* Sky — space */}
@@ -248,12 +334,15 @@ export default function Home() {
           </g>
 
 
-          {/* Porch swing */}
+          {/* Porch swing — wrapper receives scroll-driven scaleX */}
+          <g ref={swingWrapperRef} style={{ transformBox: 'view-box', transformOrigin: '720px 450px' }}>
           {/* Ropes — tops disappear above SVG, bottoms track swing rotation */}
-          <line ref={leftRopeRef} x1="500" y1="-10" x2="470" y2="490" stroke="#a09060" strokeWidth="4" />
-          <line ref={rightRopeRef} x1="940" y1="-10" x2="970" y2="490" stroke="#a09060" strokeWidth="4" />
+          <line ref={leftRopeRef} x1={isMobile ? 588 : 500} y1="-10" x2="470" y2="490" stroke="#a09060" strokeWidth="4" />
+          <line ref={rightRopeRef} x1={isMobile ? 852 : 940} y1="-10" x2="970" y2="490" stroke="#a09060" strokeWidth="4" />
           {/* Swing body — rotates around pivot */}
-          <g ref={swingGroupRef} onMouseEnter={handleMouseEnter} onMouseLeave={handleMouseLeave} style={{ cursor: 'pointer' }}>
+          <g ref={swingGroupRef} onMouseEnter={isMobile ? undefined : handleMouseEnter} onMouseLeave={isMobile ? undefined : handleMouseLeave} onPointerDown={isMobile ? handleTap : undefined} style={{ cursor: 'pointer' }}>
+          {/* Inner scale group: scales body before rotation so swing rotates as a narrower shape on mobile */}
+          <g transform={isMobile ? `translate(720,0) scale(${MOBILE_SWING_SCALE},1) translate(-720,0)` : ''}>
           <rect x="455" y="390" width="530" height="16" rx="6" fill="#7a5530" />
           {[470, 510, 550, 590, 630, 670, 710, 750, 790, 830, 870, 910, 950].map(x => (
             <rect key={x} x={x} y="406" width="28" height="80" rx="3" fill="#8b6a3a" />
@@ -267,6 +356,8 @@ export default function Home() {
           <rect x="435" y="426" width="46" height="12" rx="4" fill="#8b6a3a" />
           <rect x="974" y="430" width="16" height="80" rx="4" fill="#7a5530" />
           <rect x="959" y="426" width="46" height="12" rx="4" fill="#8b6a3a" />
+          </g>
+          </g>
           </g>
 
           {/* Mouse */}
