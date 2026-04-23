@@ -14,11 +14,17 @@ export default function Nav({ logoRef }) {
         <Link
           href="/"
           ref={logoRef}
-          className="absolute left-1/2 -translate-x-1/2 hidden md:block"
+          className="group absolute left-1/2 -translate-x-1/2 hidden md:block"
           style={{ transform: 'translateY(48px)', opacity: 0, pointerEvents: 'none' }}
           aria-label="Go to home page"
         >
-          <Image src="/logo.png" alt="Porch Swing Software" width={96} height={96} className="object-contain" />
+          <Image
+            src="/logo.png"
+            alt="Porch Swing Software"
+            width={96}
+            height={96}
+            className="object-contain transition-[filter] duration-200 [filter:drop-shadow(1px_0_0_#d6b891)_drop-shadow(-1px_0_0_#d6b891)_drop-shadow(0_1px_0_#d6b891)_drop-shadow(0_-1px_0_#d6b891)] group-hover:[filter:brightness(1.18)_sepia(0.12)_saturate(0.9)_drop-shadow(1px_0_0_#fff)_drop-shadow(-1px_0_0_#fff)_drop-shadow(0_1px_0_#fff)_drop-shadow(0_-1px_0_#fff)]"
+          />
         </Link>
 
         {/* Desktop menu */}
