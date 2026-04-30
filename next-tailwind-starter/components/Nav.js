@@ -31,6 +31,7 @@ export default function Nav({ logoRef }) {
         <div className="space-x-6 hidden md:flex items-center">
           <Link href="/" className="text-sm font-medium text-muted hover:text-primary transition-colors">Home</Link>
           <Link href="/about" className="text-sm font-medium text-muted hover:text-primary transition-colors">About</Link>
+          <Link href="/success-stories" className="text-sm font-medium text-muted hover:text-primary transition-colors">Success Stories</Link>
           <Link href="/contact" className="text-sm font-medium text-muted hover:text-primary transition-colors">Contact</Link>
           <Link href="/book" className="text-sm font-bold bg-taupe text-ink px-5 py-2 rounded-full hover:bg-primary transition-colors">Book a call</Link>
         </div>
@@ -52,6 +53,7 @@ export default function Nav({ logoRef }) {
         <div className="flex flex-col px-8 pb-5 gap-4">
           <Link href="/" onClick={() => setOpen(false)} className="text-sm font-medium text-muted hover:text-primary transition-colors">Home</Link>
           <Link href="/about" onClick={() => setOpen(false)} className="text-sm font-medium text-muted hover:text-primary transition-colors">About</Link>
+          <Link href="/success-stories" onClick={() => setOpen(false)} className="text-sm font-medium text-muted hover:text-primary transition-colors">Success Stories</Link>
           <Link href="/contact" onClick={() => setOpen(false)} className="text-sm font-medium text-muted hover:text-primary transition-colors">Contact</Link>
           <Link href="/book" onClick={() => setOpen(false)} className="text-sm font-bold bg-taupe text-ink px-5 py-2 rounded-full hover:bg-primary transition-colors text-center">Book a call</Link>
         </div>

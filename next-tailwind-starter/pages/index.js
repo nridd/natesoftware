@@ -482,7 +482,11 @@ export default function Home() {
 
       {/* Footer */}
       <footer className="bg-ink border-t border-olive/20 py-8 px-6 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p className="text-muted text-sm">© {new Date().getFullYear()} Porch Swing Software</p>
+        <div className="flex flex-col items-center sm:items-start gap-1">
+          <p className="text-muted text-sm">© {new Date().getFullYear()} Porch Swing Software</p>
+          <a href="tel:2488804249" className="text-muted text-sm hover:text-primary transition-colors">248-880-4249</a>
+          <a href="mailto:porchswingsoftware@gmail.com" className="text-muted text-sm hover:text-primary transition-colors">porchswingsoftware@gmail.com</a>
+        </div>
         <div className="flex items-center gap-6">
           <a href="/" className="text-sm text-muted hover:text-primary transition-colors">Home</a>
           <a href="/about" className="text-sm text-muted hover:text-primary transition-colors">About</a>
